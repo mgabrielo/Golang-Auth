@@ -35,7 +35,7 @@ func VerifyPassword(userPassword string, providedPassword string) (bool, string)
 	check := true
 	msg := ""
 	if err != nil {
-		fmt.Sprintf("email of password is Invalid")
+		fmt.Sprintf("email or password is Invalid")
 		check = false
 	}
 	return check, msg
@@ -140,8 +140,10 @@ func GetUsers() gin.HandlerFunc {
 		startIndex, err = strconv.Atoi(c.Query("startIndex"))
 		matchStage := bson.D{{Key: "$match", Value: bson.D{{}}}}
 		groupStage := bson.D{{
-			Key: "$group", Value: bson.D{{
-				Key: "_id", Value: bson.D{{Key: "_id", Value: "null"}}},
+			Key: "$group", Value: bson.D{
+				{
+					Key: "_id", Value: bson.D{{Key: "_id", Value: "null"}},
+				},
 				{
 					Key: "total_count", Value: bson.D{{Key: "$sum", Value: 1}},
 				},
